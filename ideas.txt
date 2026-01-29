@@ -13,3 +13,11 @@ Detect:
 Taking medication
 Drinking water
 Falls or risky interactions
+
+Kashish:
+--Smart Event Detection(CAR/Moving Vehicles)
+------ Detect: Can distinguish between humans, vehicles, and animals to reduce false alarms
+
+-- Disaster damage control
+------ Detect: Humans through thermal detection in a fire etc.
+
