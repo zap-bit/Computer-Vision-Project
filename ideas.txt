@@ -1,0 +1,15 @@
+Potential ideas
+topic 4 
+
+Disha
+Retail & Loss Prevention
+Detect:
+Suspicious handling of products
+Concealing items
+Unauthorized stockroom access
+
+Elderly Care Monitoring
+Detect:
+Taking medication
+Drinking water
+Falls or risky interactions
