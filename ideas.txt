@@ -22,7 +22,7 @@ Product Selection: Distinguishing between browsing and picking up items.
 Concealment Logic: Triggering alerts when a product’s bounding box merges with a person/bag and disappears.
 Zone Security: Monitoring unauthorized entry into restricted stockroom areas. (not sure abt this feature)
 Technical Alignment: Perfectly fits Topic 4 by analyzing the spatial and temporal relationships between a person, an object, and a specific action.
-Implementation & Feasibility: * Edge Optimized: Highly feasible on NVIDIA Jetson using standard RGB camera feeds; no specialized hardware required since he said we have to try and use the hardware provided.
+Implementation & Feasibility: Highly feasible on NVIDIA Jetson using standard RGB camera feeds; no specialized hardware required since he said we have to try and use the hardware provided.
 Data Control: We can relatively easily collect and label a custom dataset using staged, retail scenes to finetune.
 Impact: Good live demo potential—simulating a "smart store" setup that is directly relevant to the multi-billion dollar retail AI industry and would look good on our resumes
 Specific features: Flexible idk yet
