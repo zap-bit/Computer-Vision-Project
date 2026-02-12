@@ -34,3 +34,31 @@ Kashish:
 -- Disaster damage control
 ------ Detect: Humans through thermal detection in a fire etc.
 
+Hassan: 
+Gesture-Controlled Command System:
+
+- Detect custom hand gestures (thumbs up, stop, peace sign, point left/right)
+
+- Map gestures to simple commands (start timer, switch slide, etc.)
+
+- Collect and label gesture images/videos
+
+- Use hand detection + classification model
+
+- Evaluate gesture recognition accuracy
+
+- Demonstrate live control using camera
+
+Real-Time Object Usage Monitoring
+
+- Detect when certain objects are being used (cup lifted, phone picked up, notebook opened)
+
+- Combine object detection with simple temporal logic
+
+- Collect labeled video clips of object interactions
+
+- Train YOLO-based detection model
+
+-Evaluate precision, recall, and latency
+
+- Run inference live on Jetson
