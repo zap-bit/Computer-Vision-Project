@@ -62,3 +62,28 @@ Real-Time Object Usage Monitoring
 -Evaluate precision, recall, and latency
 
 - Run inference live on Jetson
+
+Aashlesha: 
+Topic 1 :- 
+Smart Desk Assistant: detects and traks common desk items (phone, wallet, keys, ...) in real time 
+- can detect common desk items
+- track each items with an id like Obj001
+- can count item on desk in reak time
+Mini Sore Checkout counter: 
+- detects items(bottle, book, charger...) as they pass through a checkout zone 
+- counts them when crossing the zone
+- track them to avoid double crossong.
+
+Topic 3
+Gesture controlled command system
+- can detect hand gesture like thumbs up, fist, open palm...)
+- map gesture to commands
+- maintain stable detections
+
+Pose based injury risk alert
+- detects abnormal joint angles comared to a normal range
+- detect the left-right asymmetry for example one arm moves very different than the other
+- detect guarding behavior like if a person keeps one limb close and avoids moving it
+- deect sudden collapse or low movement after fall pluse immobility. 
+
+
