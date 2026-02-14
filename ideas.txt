@@ -65,7 +65,7 @@ Real-Time Object Usage Monitoring
 
 Aashlesha: 
 Topic 1 :- 
-Smart Desk Assistant: detects and traks common desk items (phone, wallet, keys, ...) in real time 
+*Smart Desk Assistant: detects and traks common desk items (phone, wallet, keys, ...) in real time 
 - can detect common desk items
 - track each items with an id like Obj001
 - can count item on desk in reak time
@@ -83,7 +83,7 @@ Gesture controlled command system
 - map gesture to commands
 - maintain stable detections
 
-Pose based injury risk alert
+* Pose based injury risk alert
 - detects abnormal joint angles comared to a normal range
 - detect the left-right asymmetry for example one arm moves very different than the other
 - detect guarding behavior like if a person keeps one limb close and avoids moving it
