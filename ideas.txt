@@ -69,10 +69,13 @@ Smart Desk Assistant: detects and traks common desk items (phone, wallet, keys, 
 - can detect common desk items
 - track each items with an id like Obj001
 - can count item on desk in reak time
+Disha: I like this idea but maybe in the direction of inventory
+
 Mini Sore Checkout counter: 
 - detects items(bottle, book, charger...) as they pass through a checkout zone 
 - counts them when crossing the zone
 - track them to avoid double crossong.
+
 
 Topic 3
 Gesture controlled command system
