@@ -89,4 +89,6 @@ Pose based injury risk alert
 - detect guarding behavior like if a person keeps one limb close and avoids moving it
 - deect sudden collapse or low movement after fall pluse immobility. 
 
+Disha: Inventory tracker 
+
 
