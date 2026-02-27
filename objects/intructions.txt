@@ -1,0 +1,47 @@
+Data set image instructions
+Camera settings so that we have a consistent database
+1920 × 1080 (Full HD)
+16:9 aspect ratio
+ 
+Distance 
+ 2 ft (demo distance)	70%
+1 ft (closer)	15%
+4–5 ft (farther)	15%
+ 
+I'll be collecting water bottle images so for me it would be
+ 
+Multiple Backgrounds
+Take photos on:
+Brown table
+White desk
+Floor
+Shelf
+Cluttered background
+Near window
+Plain wall
+Multiple Lighting Conditions
+Bright indoor
+Slightly dim
+Side lighting
+Overhead lighting
+Avoid pitch dark or extreme glare.
+Different Arrangements
+Single bottle
+Multiple bottles
+Partially hidden
+Rotated
+Lying down
+Standing up
+Different Distances
+Close-up
+Medium
+Far (small bottles in frame)
+keep distance mostly 2 feet and we'll do the demo with same distance
+If each person takes 250 images (lets aim for 100 first atleast so 20 in each category):
+ 
+Type	                 Approx Count
+Clean background	      50
+Cluttered background	  50
+Multiple bottles	      50
+Partial occlusion	      50
+Different lighting	    50
