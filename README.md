@@ -49,3 +49,17 @@ project/
             └── [training plots and metrics]
 ```
 
+## Contributions
+- Data collection: 100-150 images each
+- ML Pipeline & Deployment (Jetson, YOLO, TensorRT): Disha 
+- Data labelling: Aashlesha
+- Backend (data handling, storage): Hassan
+- Frontend (UI/dashboard): Kashish
+
+## ML System Overview (Implemented by Disha)
+
+- Model training pipeline (train.py)
+- Validation + metrics (validate.py)
+- Real-time inference pipeline (inference.py)
+- Jetson deployment
+- TensorRT optimization for performance
