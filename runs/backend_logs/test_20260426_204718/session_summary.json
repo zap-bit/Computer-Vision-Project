@@ -1,0 +1,22 @@
+{
+  "run_id": "test_20260426_204718",
+  "frames_processed": 523,
+  "average_fps": 27.723,
+  "average_inference_ms": 36.55,
+  "max_count_per_class": {
+    "remote": 1,
+    "person": 4,
+    "tie": 1,
+    "fork": 1,
+    "bed": 2,
+    "keyboard": 1,
+    "cell phone": 2,
+    "mouse": 1,
+    "laptop": 1,
+    "couch": 1,
+    "cat": 1
+  },
+  "screenshots_saved": 0,
+  "created_at_utc": "2026-04-26T20:47:54.585464+00:00",
+  "frame_csv": "runs/backend_logs/test_20260426_204718/frame_counts.csv"
+}
