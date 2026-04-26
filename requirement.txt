@@ -1,0 +1,8 @@
+opencv-python
+numpy
+matplotlib
+scipy
+ultralytics
+fastapi
+uvicorn
+httpx
