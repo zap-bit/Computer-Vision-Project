@@ -1,120 +1,121 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [backend, setBackend] = useState('checking...')
+  const [latest, setLatest] = useState(null)
+
+  async function loadBackendData() {
+    try {
+      const healthRes = await fetch('/api/health')
+      const health = await healthRes.json()
+      setBackend(health.status || 'ok')
+
+      const countsRes = await fetch('/api/latest-counts')
+      if (countsRes.ok) {
+        const counts = await countsRes.json()
+        setLatest(counts)
+      }
+    } catch {
+      setBackend('offline')
+    }
+  }
+
+  useEffect(() => {
+    loadBackendData()
+    const timer = setInterval(loadBackendData, 2000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const counts = latest?.counts || {
+    'Water Bottles': 12,
+    Oranges: 18,
+    Apples: 9,
+    Bananas: 15,
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="page">
+      <aside className="sidebar">
+        <h1>STOCKSYNC</h1>
+        <p>Automated Retail Inventory Tracking</p>
 
-      <div className="ticks"></div>
+        <nav>
+          <a className="active">Dashboard</a>
+          <a>Inventory</a>
+          <a>Analytics</a>
+          <a>Alerts</a>
+          <a>Settings</a>
+        </nav>
+      </aside>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <main className="main">
+        <header className="header">
+          <div>
+            <h2>Inventory Dashboard</h2>
+            <p>Real-time computer vision stock monitoring</p>
+          </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+          <span className={backend === 'offline' ? 'offline' : 'online'}>
+            Backend: {backend}
+          </span>
+        </header>
+
+        <section className="stats">
+          <div className="stat">
+            <h3>94.8%</h3>
+            <p>Detection Accuracy</p>
+          </div>
+
+          <div className="stat">
+            <h3>{Object.values(counts).reduce((a, b) => a + b, 0)}</h3>
+            <p>Total Items Detected</p>
+          </div>
+
+          <div className="stat">
+            <h3>{Object.keys(counts).length}</h3>
+            <p>Product Categories</p>
+          </div>
+
+          <div className="stat">
+            <h3>Live</h3>
+            <p>Camera Status</p>
+          </div>
+        </section>
+
+        <section className="grid">
+          <div className="panel video">
+            <h3>Live Detection Feed</h3>
+
+            <div className="camera-box">
+              <img
+                src="/api/video-feed"
+                alt="Live Camera Feed"
+                className="camera-feed"
+              />
+            </div>
+          </div>
+
+          <div className="panel">
+            <h3>Inventory Counts</h3>
+
+            {Object.entries(counts).map(([item, count]) => (
+              <div className="item" key={item}>
+                <span>{item}</span>
+                <b>{count}</b>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel">
+          <h3>System Activity</h3>
+          <p>Last updated from backend every 2 seconds.</p>
+          <p>Run ID: {latest?.run_id || 'demo'}</p>
+          <p>Frame: {latest?.frame_idx ?? 'waiting for detection data'}</p>
+        </section>
+      </main>
+    </div>
   )
 }
 
