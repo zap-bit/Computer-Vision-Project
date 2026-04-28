@@ -50,6 +50,54 @@ body {
 .sidebar a.active {
   background: rgba(255, 255, 255, 0.18);
 }
+.sidebar button {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 14px;
+  margin: 8px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+}
+
+.sidebar button.active,
+.sidebar button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.status-low {
+  color: #b42318;
+  font-weight: bold;
+}
+
+.status-good {
+  color: #087a42;
+  font-weight: bold;
+}
+
+.alert {
+  background: #fff7ed;
+  padding: 14px;
+  border-left: 5px solid #f97316;
+  border-radius: 10px;
+}
 
 .main {
   flex: 1;
