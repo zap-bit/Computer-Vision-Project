@@ -17,8 +17,16 @@ LOGS_DIR = Path("runs/backend_logs")
 app = FastAPI(title="Inventory Backend API", version="0.1.0")
 
 model = YOLO("yolov8n.pt")
-live_counts = {}
 
+ALLOWED_CLASSES = {
+    "mouse",
+    "pen",
+    "bottle",
+    "granola bar",
+    "candy",
+}
+
+live_counts = {item: 0 for item in ALLOWED_CLASSES}
 
 def _resolve_run_dir(run_id: str | None) -> Path:
     if run_id:
@@ -67,7 +75,7 @@ def generate_camera_frames():
             break
 
         results = model.predict(source=frame, conf=0.3, verbose=False)
-        counts = {}
+        counts = {item: 0 for item in ALLOWED_CLASSES}
 
         for result in results:
             names = result.names
@@ -76,7 +84,10 @@ def generate_camera_frames():
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 cls_id = int(box.cls[0])
                 conf = float(box.conf[0])
-                label = names[cls_id]
+                label = names[cls_id].lower()
+
+                if label not in ALLOWED_CLASSES:
+                    continue
 
                 counts[label] = counts.get(label, 0) + 1
 
