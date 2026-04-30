@@ -3,7 +3,12 @@ import cv2
 from ultralytics import YOLO
 
 #load model GAP:swap this line when custom model is ready
+<<<<<<< HEAD
 model = YOLO("segment/runs/detect/shelf_inventory/weights/best.pt")
+=======
+model = YOLO("yolov8n.pt")  #using pretrained for now
+#model = YOLO("runs/detect/shelf_inventory/weights/best.pt")  our custom model to be inserted
+>>>>>>> integrate
 
 #open webcam
 cap = cv2.VideoCapture(0)

@@ -1,0 +1,13 @@
+{
+  "run_id": "test_20260426_213750",
+  "frames_processed": 78,
+  "average_fps": 18.911,
+  "average_inference_ms": 51.477,
+  "max_count_per_class": {
+    "person": 1,
+    "potted plant": 1
+  },
+  "screenshots_saved": 0,
+  "created_at_utc": "2026-04-26T21:37:56.437169+00:00",
+  "frame_csv": "runs/backend_logs/test_20260426_213750/frame_counts.csv"
+}

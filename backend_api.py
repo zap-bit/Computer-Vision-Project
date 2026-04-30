@@ -1,19 +1,46 @@
 """
+<<<<<<< HEAD
 FastAPI service for reading backend detection logs.
+=======
+FastAPI service for backend detection logs and live YOLO camera feed.
+>>>>>>> integrate
 """
 
 from __future__ import annotations
 
 import sqlite3
+<<<<<<< HEAD
+=======
+import cv2
+>>>>>>> integrate
 from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Query
+<<<<<<< HEAD
 
+=======
+from fastapi.responses import StreamingResponse
+from ultralytics import YOLO
+>>>>>>> integrate
 
 LOGS_DIR = Path("runs/backend_logs")
 app = FastAPI(title="Inventory Backend API", version="0.1.0")
 
+<<<<<<< HEAD
+=======
+model = YOLO("yolov8n.pt")
+
+ALLOWED_CLASSES = {
+    "mouse",
+    "pen",
+    "bottle",
+    "granola bar",
+    "candy",
+}
+
+live_counts = {item: 0 for item in ALLOWED_CLASSES}
+>>>>>>> integrate
 
 def _resolve_run_dir(run_id: str | None) -> Path:
     if run_id:
@@ -51,8 +78,75 @@ def latest_run() -> dict[str, str]:
     return {"run_id": run_dir.name}
 
 
+<<<<<<< HEAD
 @app.get("/latest-counts")
 def latest_counts(run_id: str | None = Query(default=None)) -> dict[str, Any]:
+=======
+def generate_camera_frames():
+    global live_counts
+
+    camera = cv2.VideoCapture(0)
+
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+
+        results = model.predict(source=frame, conf=0.3, verbose=False)
+        counts = {item: 0 for item in ALLOWED_CLASSES}
+
+        for result in results:
+            names = result.names
+
+            for box in result.boxes:
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                cls_id = int(box.cls[0])
+                conf = float(box.conf[0])
+                label = names[cls_id].lower()
+
+                if label not in ALLOWED_CLASSES:
+                    continue
+
+                counts[label] = counts.get(label, 0) + 1
+
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(
+                    frame,
+                    f"{label} {conf:.2f}",
+                    (x1, y1 - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6,
+                    (0, 255, 0),
+                    2,
+                )
+
+        live_counts = counts
+
+        _, buffer = cv2.imencode(".jpg", frame)
+        frame_bytes = buffer.tobytes()
+
+        yield (
+            b"--frame\r\n"
+            b"Content-Type: image/jpeg\r\n\r\n" + frame_bytes + b"\r\n"
+        )
+
+    camera.release()
+
+
+@app.get("/video-feed")
+def video_feed():
+    return StreamingResponse(
+        generate_camera_frames(),
+        media_type="multipart/x-mixed-replace; boundary=frame",
+    )
+
+
+@app.get("/latest-counts")
+def latest_counts(run_id: str | None = Query(default=None)) -> dict[str, Any]:
+    if live_counts:
+        return {"run_id": "live_camera", "frame_idx": None, "counts": live_counts}
+
+>>>>>>> integrate
     run_dir = _resolve_run_dir(run_id)
     conn = _open_db(run_dir)
     try:
@@ -70,6 +164,10 @@ def latest_counts(run_id: str | None = Query(default=None)) -> dict[str, Any]:
             """,
             (latest_frame,),
         ).fetchall()
+<<<<<<< HEAD
+=======
+
+>>>>>>> integrate
         counts = {row["class_name"]: int(row["count"]) for row in rows}
         non_zero_counts = {k: v for k, v in counts.items() if v > 0}
         return {"run_id": run_dir.name, "frame_idx": int(latest_frame), "counts": non_zero_counts}
@@ -105,7 +203,14 @@ def class_trend(
             }
             for row in reversed(rows)
         ]
+<<<<<<< HEAD
         return {"run_id": run_dir.name, "class_name": class_name, "items": items}
     finally:
         conn.close()
 
+=======
+
+        return {"run_id": run_dir.name, "class_name": class_name, "items": items}
+    finally:
+        conn.close()
+>>>>>>> integrate

@@ -1,0 +1,14 @@
+{
+  "run_id": "test_20260426_204700",
+  "frames_processed": 94,
+  "average_fps": 22.204,
+  "average_inference_ms": 53.465,
+  "max_count_per_class": {
+    "keyboard": 1,
+    "laptop": 1,
+    "bed": 2
+  },
+  "screenshots_saved": 0,
+  "created_at_utc": "2026-04-26T20:47:09.676671+00:00",
+  "frame_csv": "runs/backend_logs/test_20260426_204700/frame_counts.csv"
+}
