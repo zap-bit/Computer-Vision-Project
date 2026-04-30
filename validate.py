@@ -1,12 +1,11 @@
-# validate.py - Test model accuracy (Week 6 evaluation)
+# validate.py - Test model accuracy
 from ultralytics import YOLO
 
 def validate_model():
-    model = YOLO('runs/detect/shelf_inventory/weights/best.pt')
-    
-    # Run validation on test set
+    model = YOLO('/content/runs/segment/runs/detect/shelf_inventory/weights/best.pt')
+
     metrics = model.val(
-        data='data/dataset.yaml',
+        data='/content/DataLabelling/data.yaml',
         imgsz=640,
         batch=8,
         plots=True,  #generates confusion matrix, PR curves
@@ -14,10 +13,12 @@ def validate_model():
     )
     
     print(f"\n  Validation Results:")
-    print(f"mAP@50: {metrics.box.map50:.3f}")
-    print(f"mAP@50-95: {metrics.box.map:.3f}")
+    print(f"Box  mAP@50:    {metrics.box.map50:.3f}")
+    print(f"Box  mAP@50-95: {metrics.box.map:.3f}")
+    print(f"Mask mAP@50:    {metrics.seg.map50:.3f}")
+    print(f"Mask mAP@50-95: {metrics.seg.map:.3f}")
     print(f"Precision: {metrics.box.mp:.3f}")
-    print(f"Recall: {metrics.box.mr:.3f}")
+    print(f"Recall:    {metrics.box.mr:.3f}")
     
     return metrics
 

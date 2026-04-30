@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 5
+names: ['chocolate', 'granola', 'mouse', 'pen', 'waterbottle']
+
+roboflow:
+  workspace: aashleshas-workspace-kocmz
+  project: my-first-project-vwhb7
+  version: 1
+  license: Private
+  url: https://app.roboflow.com/aashleshas-workspace-kocmz/my-first-project-vwhb7/1
