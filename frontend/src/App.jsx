@@ -29,12 +29,13 @@ function App() {
     return () => clearInterval(timer)
   }, [])
 
-  const rawCounts = latest?.counts || {
-    'Water Bottles': 12,
-    Oranges: 18,
-    Apples: 9,
-    Bananas: 15,
-  }
+  const rawCounts = {
+  bottle: latest?.counts?.bottle ?? 0,
+  'granola bar': latest?.counts?.['granola bar'] ?? 0,
+  candy: latest?.counts?.candy ?? 0,
+  mouse: latest?.counts?.mouse ?? 0,
+  pen: latest?.counts?.pen ?? 0,
+}
 
   const counts = Object.fromEntries(
     Object.entries(rawCounts).filter(([item]) => item.toLowerCase() !== 'person')

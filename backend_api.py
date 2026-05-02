@@ -1,46 +1,33 @@
 """
-<<<<<<< HEAD
-FastAPI service for reading backend detection logs.
-=======
 FastAPI service for backend detection logs and live YOLO camera feed.
->>>>>>> integrate
 """
 
 from __future__ import annotations
 
 import sqlite3
-<<<<<<< HEAD
-=======
-import cv2
->>>>>>> integrate
 from pathlib import Path
 from typing import Any
 
+import cv2
 from fastapi import FastAPI, HTTPException, Query
-<<<<<<< HEAD
-
-=======
 from fastapi.responses import StreamingResponse
 from ultralytics import YOLO
->>>>>>> integrate
 
 LOGS_DIR = Path("runs/backend_logs")
 app = FastAPI(title="Inventory Backend API", version="0.1.0")
 
-<<<<<<< HEAD
-=======
 model = YOLO("yolov8n.pt")
 
 ALLOWED_CLASSES = {
-    "mouse",
-    "pen",
     "bottle",
     "granola bar",
     "candy",
+    "mouse",
+    "pen",
 }
 
 live_counts = {item: 0 for item in ALLOWED_CLASSES}
->>>>>>> integrate
+
 
 def _resolve_run_dir(run_id: str | None) -> Path:
     if run_id:
@@ -55,6 +42,7 @@ def _resolve_run_dir(run_id: str | None) -> Path:
     run_dirs = [p for p in LOGS_DIR.iterdir() if p.is_dir()]
     if not run_dirs:
         raise HTTPException(status_code=404, detail="No runs found.")
+
     return max(run_dirs, key=lambda p: p.stat().st_mtime)
 
 
@@ -62,6 +50,7 @@ def _open_db(run_dir: Path) -> sqlite3.Connection:
     db_path = run_dir / "detections.db"
     if not db_path.exists():
         raise HTTPException(status_code=404, detail=f"detections.db missing for run: {run_dir.name}")
+
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
@@ -78,10 +67,6 @@ def latest_run() -> dict[str, str]:
     return {"run_id": run_dir.name}
 
 
-<<<<<<< HEAD
-@app.get("/latest-counts")
-def latest_counts(run_id: str | None = Query(default=None)) -> dict[str, Any]:
-=======
 def generate_camera_frames():
     global live_counts
 
@@ -89,10 +74,11 @@ def generate_camera_frames():
 
     while True:
         success, frame = camera.read()
-        if not success:
-            break
 
-        results = model.predict(source=frame, conf=0.3, verbose=False)
+        if not success:
+            continue
+
+        results = model.predict(source=frame, conf=0.15, verbose=False)
         counts = {item: 0 for item in ALLOWED_CLASSES}
 
         for result in results:
@@ -122,12 +108,17 @@ def generate_camera_frames():
 
         live_counts = counts
 
-        _, buffer = cv2.imencode(".jpg", frame)
+        ok, buffer = cv2.imencode(".jpg", frame)
+        if not ok:
+            continue
+
         frame_bytes = buffer.tobytes()
 
         yield (
             b"--frame\r\n"
-            b"Content-Type: image/jpeg\r\n\r\n" + frame_bytes + b"\r\n"
+            b"Content-Type: image/jpeg\r\n\r\n"
+            + frame_bytes
+            + b"\r\n"
         )
 
     camera.release()
@@ -143,36 +134,11 @@ def video_feed():
 
 @app.get("/latest-counts")
 def latest_counts(run_id: str | None = Query(default=None)) -> dict[str, Any]:
-    if live_counts:
-        return {"run_id": "live_camera", "frame_idx": None, "counts": live_counts}
-
->>>>>>> integrate
-    run_dir = _resolve_run_dir(run_id)
-    conn = _open_db(run_dir)
-    try:
-        frame_row = conn.execute("SELECT MAX(frame_idx) AS frame_idx FROM detection_events").fetchone()
-        latest_frame = frame_row["frame_idx"] if frame_row else None
-        if latest_frame is None:
-            return {"run_id": run_dir.name, "frame_idx": None, "counts": {}}
-
-        rows = conn.execute(
-            """
-            SELECT class_name, count
-            FROM detection_events
-            WHERE frame_idx = ?
-            ORDER BY class_name
-            """,
-            (latest_frame,),
-        ).fetchall()
-<<<<<<< HEAD
-=======
-
->>>>>>> integrate
-        counts = {row["class_name"]: int(row["count"]) for row in rows}
-        non_zero_counts = {k: v for k, v in counts.items() if v > 0}
-        return {"run_id": run_dir.name, "frame_idx": int(latest_frame), "counts": non_zero_counts}
-    finally:
-        conn.close()
+    return {
+        "run_id": "live_camera",
+        "frame_idx": None,
+        "counts": live_counts,
+    }
 
 
 @app.get("/trend/{class_name}")
@@ -183,6 +149,7 @@ def class_trend(
 ) -> dict[str, Any]:
     run_dir = _resolve_run_dir(run_id)
     conn = _open_db(run_dir)
+
     try:
         rows = conn.execute(
             """
@@ -203,14 +170,8 @@ def class_trend(
             }
             for row in reversed(rows)
         ]
-<<<<<<< HEAD
-        return {"run_id": run_dir.name, "class_name": class_name, "items": items}
-    finally:
-        conn.close()
-
-=======
 
         return {"run_id": run_dir.name, "class_name": class_name, "items": items}
+
     finally:
         conn.close()
->>>>>>> integrate
