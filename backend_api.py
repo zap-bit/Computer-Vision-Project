@@ -10,11 +10,21 @@ from typing import Any
 
 import cv2
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from ultralytics import YOLO
 
 LOGS_DIR = Path("runs/backend_logs")
+
 app = FastAPI(title="Inventory Backend API", version="0.1.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 model = YOLO("yolov8n.pt")
 
@@ -48,8 +58,12 @@ def _resolve_run_dir(run_id: str | None) -> Path:
 
 def _open_db(run_dir: Path) -> sqlite3.Connection:
     db_path = run_dir / "detections.db"
+
     if not db_path.exists():
-        raise HTTPException(status_code=404, detail=f"detections.db missing for run: {run_dir.name}")
+        raise HTTPException(
+            status_code=404,
+            detail=f"detections.db missing for run: {run_dir.name}",
+        )
 
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
@@ -78,7 +92,8 @@ def generate_camera_frames():
         if not success:
             continue
 
-        results = model.predict(source=frame, conf=0.15, verbose=False)
+        results = model.predict(source=frame, conf=0.25, verbose=False)
+
         counts = {item: 0 for item in ALLOWED_CLASSES}
 
         for result in results:
@@ -93,7 +108,7 @@ def generate_camera_frames():
                 if label not in ALLOWED_CLASSES:
                     continue
 
-                counts[label] = counts.get(label, 0) + 1
+                counts[label] += 1
 
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.putText(
@@ -171,7 +186,11 @@ def class_trend(
             for row in reversed(rows)
         ]
 
-        return {"run_id": run_dir.name, "class_name": class_name, "items": items}
+        return {
+            "run_id": run_dir.name,
+            "class_name": class_name,
+            "items": items,
+        }
 
     finally:
         conn.close()

@@ -9,11 +9,11 @@ function App() {
 
   async function loadBackendData() {
     try {
-      const healthRes = await fetch('/api/health')
+      const healthRes = await fetch('http://127.0.0.1:8000/health')
       const health = await healthRes.json()
       setBackend(health.status || 'ok')
 
-      const countsRes = await fetch('/api/latest-counts')
+      const countsRes = await fetch('http://127.0.0.1:8000/latest-counts')
       if (countsRes.ok) {
         const counts = await countsRes.json()
         setLatest(counts)
@@ -29,12 +29,12 @@ function App() {
     return () => clearInterval(timer)
   }, [])
 
-  const rawCounts = {
-  bottle: latest?.counts?.bottle ?? 0,
-  'granola bar': latest?.counts?.['granola bar'] ?? 0,
-  candy: latest?.counts?.candy ?? 0,
-  mouse: latest?.counts?.mouse ?? 0,
-  pen: latest?.counts?.pen ?? 0,
+  const rawCounts = latest?.counts || {
+  bottle: 0,
+  'granola bar': 0,
+  candy: 0,
+  mouse: 0,
+  pen: 0,
 }
 
   const counts = Object.fromEntries(
@@ -108,7 +108,7 @@ function App() {
                 <h3>Live Detection Feed</h3>
                 <div className="camera-box">
                   <img
-                    src="/api/video-feed"
+                    src="http://127.0.0.1:8000/video-feed"
                     alt="Live Camera Feed"
                     className="camera-feed"
                   />
