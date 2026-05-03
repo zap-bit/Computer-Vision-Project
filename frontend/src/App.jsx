@@ -30,11 +30,11 @@ function App() {
   }, [])
 
   const rawCounts = latest?.counts || {
-  bottle: 0,
-  'granola bar': 0,
-  candy: 0,
+  chocolate: 0,
+  granola: 0,
   mouse: 0,
   pen: 0,
+  waterbottle: 0,
 }
 
   const counts = Object.fromEntries(

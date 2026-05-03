@@ -26,14 +26,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model = YOLO("yolov8n.pt")
+try:
+    model = YOLO("segment/runs/detect/shelf_inventory/weights/best.engine")
+    print("Loaded TensorRT model")
+except Exception:
+    model = YOLO("segment/runs/detect/shelf_inventory/weights/best.pt")
+    print("Loaded PyTorch model")
 
 ALLOWED_CLASSES = {
-    "bottle",
-    "granola bar",
-    "candy",
+    "chocolate",
+    "granola",
     "mouse",
     "pen",
+    "waterbottle",
 }
 
 live_counts = {item: 0 for item in ALLOWED_CLASSES}

@@ -80,11 +80,6 @@ def main() -> None:
     try:
         while True:
             ret, frame = cap.read()
-<<<<<<< HEAD
-=======
-            from backend_api import latest_frame
-            latest_frame = frame.copy()
->>>>>>> integrate
             if not ret:
                 break
 
