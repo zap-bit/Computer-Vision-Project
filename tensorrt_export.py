@@ -4,7 +4,7 @@ import cv2
 import time
 import numpy as np
 
-def export_to_tensorrt(model_path='runs/detect/shelf_inventory/weights/best.pt'):
+def export_to_tensorrt(model_path='segment/runs/detect/shelf_inventory/weights/best.pt'):
     """
     Convert PyTorch model to TensorRT engine
     """
@@ -116,8 +116,8 @@ def live_comparison():
     print("Running both models on live webcam...")
     print("Press 'q' to quit")
     
-    pytorch_model = YOLO('runs/detect/shelf_inventory/weights/best.pt')
-    tensorrt_model = YOLO('runs/detect/shelf_inventory/weights/best.engine')
+    pytorch_model = YOLO('segment/runs/detect/shelf_inventory/weights/best.pt')
+    tensorrt_model = YOLO('segment/runs/detect/shelf_inventory/weights/best.engine')
     
     cap = cv2.VideoCapture(0)
     
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     print("STEP 1: Export to TensorRT")
     print("-" * 50)
     
-    pytorch_model_path = 'runs/detect/shelf_inventory/weights/best.pt'
+    pytorch_model_path = 'segment/runs/detect/shelf_inventory/weights/best.pt'
     tensorrt_model_path = export_to_tensorrt(pytorch_model_path)
     
     #step 2: Benchmark
